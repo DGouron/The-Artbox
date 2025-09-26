@@ -1,3 +1,21 @@
+<?php
+include 'oeuvres.php';
+
+$id = $_GET['id'] ?? 0;
+
+$oeuvre_actuelle = null;
+foreach ($oeuvres as $oeuvre) {
+    if ($oeuvre['id'] == $id) {
+        $oeuvre_actuelle = $oeuvre;
+        break;
+    }
+}
+
+if (!$oeuvre_actuelle) {
+    header('Location: index.php');
+    exit;
+}
+?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -13,13 +31,13 @@
 <main>
     <article id="detail-oeuvre">
         <div id="img-oeuvre">
-            <img src="img/jazmin-quaynor.png" alt="Digital Negative">
+            <img src="<?= $oeuvre_actuelle['image'] ?>" alt="<?= $oeuvre_actuelle['titre'] ?>">
         </div>
         <div id="contenu-oeuvre">
-            <h1>Digital Negative</h1>
-            <p class="description">Hamish McKee</p>
+            <h1><?= $oeuvre_actuelle['titre'] ?></h1>
+            <p class="description"><?= $oeuvre_actuelle['artiste'] ?></p>
             <p class="description-complete">
-                Integer in nisl posuere, pulvinar ex ac, tincidunt risus. Nullam vel lorem et leo dignissim accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor, magna non consectetur dapibus, est libero iaculis lacus, eget semper turpis orci vitae felis. Fusce eget molestie.
+                <?= $oeuvre_actuelle['description'] ?>
             </p>
         </div>
     </article>
