@@ -1,4 +1,4 @@
-<?php include 'oeuvres.php'; ?>
+<?php include 'application/fetchOeuvres.php'; ?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -10,12 +10,12 @@
     <title>The ArtBox</title>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'presentation/header.php'; ?>
     <main>
         <div id="liste-oeuvres">
             <?php foreach ($oeuvres as $oeuvre): ?>
             <article class="oeuvre">
-                <a href="oeuvre.php?id=<?= $oeuvre['id'] ?>">
+                <a href="presentation/oeuvre.php?id=<?= $oeuvre['id'] ?>">
                     <img src="<?= $oeuvre['image'] ?>" alt="<?= $oeuvre['titre'] ?>">
                     <h2><?= $oeuvre['titre'] ?></h2>
                     <p class="description"><?= $oeuvre['artiste'] ?></p>
@@ -24,6 +24,6 @@
             <?php endforeach; ?>
         </div>
     </main>
-    <?php include 'footer.php'; ?>
+    <?php include 'presentation/footer.php'; ?>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-include 'oeuvres.php';
+include __DIR__ . '/../application/fetchOeuvres.php';
 
 $id = $_GET['id'] ?? 0;
 
@@ -12,7 +12,7 @@ foreach ($oeuvres as $oeuvre) {
 }
 
 if (!$oeuvre_actuelle) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit;
 }
 ?>
@@ -23,7 +23,7 @@ if (!$oeuvre_actuelle) {
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>The ArtBox</title>
 </head>
 <body>
@@ -31,7 +31,7 @@ if (!$oeuvre_actuelle) {
 <main>
     <article id="detail-oeuvre">
         <div id="img-oeuvre">
-            <img src="<?= $oeuvre_actuelle['image'] ?>" alt="<?= $oeuvre_actuelle['titre'] ?>">
+            <img src="../<?= $oeuvre_actuelle['image'] ?>" alt="<?= $oeuvre_actuelle['titre'] ?>">
         </div>
         <div id="contenu-oeuvre">
             <h1><?= $oeuvre_actuelle['titre'] ?></h1>

@@ -1,0 +1,5 @@
+# Environment variables (contient les mots de passe)
+.env
+
+# Docker volumes et logs
+docker-compose.override.yml
