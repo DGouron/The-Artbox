@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../../infrastructure/bdd.php';
-require_once __DIR__ . '/../services/OeuvreValidator.php';
+require_once __DIR__ . '/../services/oeuvreValidator.php';
+
+$error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
@@ -22,15 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
         // Redirect to homepage on success
         header('Location: ../../index.php');
-        exit();
-
+        exit;
     } catch (InvalidArgumentException $e) {
-        die($e->getMessage());
+        $error = $e->getMessage();
     } catch (PDOException $e) {
-        die('Erreur lors de l\'ajout de l\'œuvre : ' . $e->getMessage());
+        $error = $e->getMessage();
     }
 
-} else {
-    header('Location: ../../presentation/ajouter.php');
-    exit();
 }

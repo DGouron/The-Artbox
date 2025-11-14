@@ -6,7 +6,7 @@
 class OeuvreValidator
 {
     /**
-     * Sanitizes the input data by removing any extra spaces.
+     * Sanitizes the input data by removing any extra spaces and protecting against XSS.
      *
      * @param array $data The raw data to sanitize.
      * @return array The sanitized data.
@@ -14,10 +14,10 @@ class OeuvreValidator
     public function sanitizeInput(array $data): array
     {
         return [
-            'titre' => trim($data['titre'] ?? ''),
-            'artiste' => trim($data['artiste'] ?? ''),
-            'image' => trim($data['image'] ?? ''),
-            'description' => trim($data['description'] ?? '')
+            'titre' => htmlspecialchars(trim($data['titre'] ?? ''), ENT_QUOTES, 'UTF-8'),
+            'artiste' => htmlspecialchars(trim($data['artiste'] ?? ''), ENT_QUOTES, 'UTF-8'),
+            'image' => htmlspecialchars(trim($data['image'] ?? ''), ENT_QUOTES, 'UTF-8'),
+            'description' => htmlspecialchars(trim($data['description'] ?? ''), ENT_QUOTES, 'UTF-8')
         ];
     }
 
@@ -39,14 +39,32 @@ class OeuvreValidator
 
     /**
      * Validates the format of the image URL.
+     * The URL must start with https://.
      *
      * @param string $url The URL to validate.
-     * @throws InvalidArgumentException If the URL is not valid.
+     * @throws InvalidArgumentException If the URL is not valid or doesn't use HTTPS.
      */
     public function validateImageUrl(string $url): void
     {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException("Erreur : L'URL de l'image n'est pas valide.");
+        }
+
+        if (!str_starts_with(strtolower($url), 'https://')) {
+            throw new InvalidArgumentException("Erreur : L'URL de l'image doit commencer par https://");
+        }
+    }
+
+    /**
+     * Validates that the description has at least 3 characters.
+     *
+     * @param string $description The description to validate.
+     * @throws InvalidArgumentException If the description is too short.
+     */
+    public function validateDescription(string $description): void
+    {
+        if (strlen($description) < 3) {
+            throw new InvalidArgumentException("Erreur : La description doit contenir au moins 3 caractères.");
         }
     }
 
@@ -67,6 +85,7 @@ class OeuvreValidator
         $this->validateRequired($cleanData, $requiredFields);
 
         $this->validateImageUrl($cleanData['image']);
+        $this->validateDescription($cleanData['description']);
 
         return $cleanData;
     }
