@@ -5,7 +5,7 @@
  * This file fetches the artworks and makes them available in the $oeuvres variable
  */
 
-require_once __DIR__ . '/../infrastructure/bdd.php';
+require_once __DIR__ . '/../../infrastructure/bdd.php';
 
 try {
     $pdo = connexion();

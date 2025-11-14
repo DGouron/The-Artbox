@@ -15,7 +15,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./infrastructure/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - artbox_network
     healthcheck:

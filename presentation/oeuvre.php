@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../application/fetchOeuvres.php';
+include __DIR__ . '/../application/usecases/fetchOeuvres.php';
 
 $id = $_GET['id'] ?? 0;
 
@@ -31,7 +31,15 @@ if (!$oeuvre_actuelle) {
 <main>
     <article id="detail-oeuvre">
         <div id="img-oeuvre">
-            <img src="../<?= $oeuvre_actuelle['image'] ?>" alt="<?= $oeuvre_actuelle['titre'] ?>">
+            <?php
+            $imagePath = $oeuvre_actuelle['image'];
+            if (str_starts_with($imagePath, 'http://') || str_starts_with($imagePath, 'https://')) {
+                $imageSrc = $imagePath;
+            } else {
+                $imageSrc = '../' . $imagePath;
+            }
+            ?>
+            <img src="<?= $imageSrc ?>" alt="<?= $oeuvre_actuelle['titre'] ?>">
         </div>
         <div id="contenu-oeuvre">
             <h1><?= $oeuvre_actuelle['titre'] ?></h1>

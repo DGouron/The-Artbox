@@ -1,4 +1,4 @@
-.PHONY: start stop restart switch-from-main logs logs-mysql logs-phpmyadmin status clean help
+.PHONY: start stop restart switch-from-main switch-to-main logs logs-mysql logs-phpmyadmin status clean help
 
 # Commande principale : arrête main-app-v3 et démarre artbox
 switch-from-main:
@@ -16,6 +16,14 @@ switch-from-main:
 	@echo "   - phpMyAdmin   : http://localhost:8080"
 	@echo "   - User         : artbox_user"
 	@echo "   - Password     : artbox_password"
+
+# Commande inverse : arrête artbox et démarre main-app-v3
+switch-to-main:
+	@echo "🔄 Arrêt de l'environnement artbox..."
+	@docker-compose down
+	@echo "🚀 Démarrage des containers main-app-v3..."
+	@docker start mysql backend 2>/dev/null || echo "⚠️  Containers main-app-v3 introuvables"
+	@echo "✅ Environnement main-app-v3 redémarré !"
 
 # Démarrer l'environnement artbox (sans arrêter main-app-v3)
 start:
@@ -72,6 +80,7 @@ help:
 	@echo "📖 Commandes disponibles pour le projet artbox :"
 	@echo ""
 	@echo "  make switch-from-main  - Arrête main-app-v3 et démarre artbox"
+	@echo "  make switch-to-main    - Arrête artbox et redémarre main-app-v3"
 	@echo "  make start            - Démarre l'environnement artbox"
 	@echo "  make stop             - Arrête l'environnement artbox"
 	@echo "  make restart          - Redémarre l'environnement artbox"
@@ -81,6 +90,3 @@ help:
 	@echo "  make status           - Affiche l'état des containers"
 	@echo "  make clean            - Supprime complètement l'environnement"
 	@echo "  make help             - Affiche cette aide"
-	@echo ""
-	@echo "💡 Astuce : Pour revenir sur main-app-v3 :"
-	@echo "   make stop && docker start mysql backend"

@@ -1,4 +1,4 @@
-<?php include 'application/fetchOeuvres.php'; ?>
+<?php include 'application/usecases/fetchOeuvres.php'; ?>
 <!doctype html>
 <html lang="fr">
 <head>
